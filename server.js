@@ -20,7 +20,7 @@ app.get("/", (req, res) =>
 
 //read the db.json file, show all saved notes as JSON = GET
 app.get("/notes", (req, res) =>
-  res.sendFile(path.join(__dirname, "/public/notes.html"))
+  res.sendFile(path.join(__dirname, "./public/notes.html"))
 );
 
 app.get("/api/notes", (req, res) => {
@@ -33,7 +33,7 @@ app.get("/api/notes", (req, res) => {
       res.json(savedNote);
     }
   });
-  res.json(db);
+  //   res.json(db);
 });
 
 app.post("api/notes", (req, res) => {
@@ -68,15 +68,6 @@ app.post("api/notes", (req, res) => {
 app.listen(PORT, () =>
   console.log(`App listening on http://localhost:${PORT} 🚀`)
 );
-
-// // Write the string to a file
-// fs.writeFile(`./db/${newReview.product}.json`, reviewString, (err) =>
-//   err
-//     ? console.error(err)
-//     : console.log(
-//         `Review for ${newReview.product} has been written to JSON file`
-//       )
-// );
 
 // //Import custom middleware
 // app.use(clog);
