@@ -3,11 +3,17 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const db = require("./db/db.json");
+var bodyParser = require("body-parser");
 
 const PORT = process.env.PORT || 3001;
 
 //expresss app
 const app = express();
+// create application/json parser
+var jsonParser = bodyParser.json();
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
@@ -33,10 +39,10 @@ app.get("/api/notes", (req, res) => {
       res.json(savedNote);
     }
   });
-  //   res.json(db);
 });
 
-app.post("api/notes", (req, res) => {
+app.post("/api/notes", jsonParser, function (req, res) {
+  console.log("POST HIT", req.body);
   const { title, text } = req.body;
 
   // If all the required properties are present
@@ -59,7 +65,7 @@ app.post("api/notes", (req, res) => {
 
     res.json(savedNote);
 
-    res.status(201).json(response);
+    res.status(201).json("Success");
   } else {
     res.status(500).json("Error in adding new note");
   }
@@ -68,16 +74,3 @@ app.post("api/notes", (req, res) => {
 app.listen(PORT, () =>
   console.log(`App listening on http://localhost:${PORT} 🚀`)
 );
-
-// //Import custom middleware
-// app.use(clog);
-
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-// app.use("/api", api);
-
-// app.use(express.static("public"));
-
-// app.get("/", (req, res) =>
-//   res.sendFile(path.join(__dirname, "/public/index.html"))
-// );
