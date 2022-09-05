@@ -29,17 +29,60 @@ app.get("/notes", (req, res) =>
   res.sendFile(path.join(__dirname, "./public/notes.html"))
 );
 
-app.get("/api/notes", (req, res) => {
+app.get("/api/notes/", jsonParser, function (req, res) {
+  console.log("LOAD LIST");
   fs.readFile("./db/db.json", "utf-8", (err, data) => {
     if (err) {
       console.log("Darn!");
     } else {
-      console.log("Yay!");
+      console.log("1 Yay!");
       let savedNote = JSON.parse(data);
       res.json(savedNote);
     }
   });
 });
+
+app.delete("/api/notes/:id", function (req, res) {
+  const noteId = req.url.slice(11);
+
+  let savedNote = [];
+  fs.readFile("./db/db.json", "utf-8", (err, data) => {
+    if (err) {
+    } else {
+      savedNote = JSON.parse(data);
+      console.log("my saved notes" + savedNote);
+      // const note = savedNote.find((obj) => obj.id === noteId);
+      // const findIndexOfNote = savedNote.findIndex(note);
+      const index = savedNote.findIndex((x) => x.id === noteId);
+
+      console.log("THIS IS THE INDEX WE WANT TO DELETE: " + index);
+      //console.log("NOTE WE WANT TO DELETE" + note.id);
+      savedNote.splice(index, 1);
+      console.log(savedNote);
+      fs.writeFileSync("./db/db.json", JSON.stringify(savedNote), "utf-8");
+    }
+  });
+  res.json(savedNote);
+  console.log(noteId);
+});
+
+//   jsonParser,
+
+//     console.log("DELETE CLICKED");
+//     let id = new URLSearchParams(url/id);
+//     console.log(id);
+//     fs.readFile("./db/db.json", "utf-8", (err, data) => {
+//       if (err) {
+//         console.log("Darn!");
+//       } else {
+//         console.log("1 Yay!");
+//         let savedNote = JSON.parse(data.id);
+//         savedNote.pop("9726d140-2d5f-11ed-9fbc-0974d0fa06bc");
+//         res.json(savedNote);
+//       }
+//     });
+//   }
+// );
 
 app.post("/api/notes", jsonParser, function (req, res) {
   console.log("POST HIT", req.body);
