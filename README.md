@@ -7,3 +7,6 @@ In this app you can store all of your notes so you never forget. Use the text bo
 If you would like to delete a note, click the trash can.
 
 https://jordanlaczkowski.github.io/Note-Taker/
+
+![note-taker](https://user-images.githubusercontent.com/109110372/188521436-bda48ebc-6c9d-4450-8f90-44f2a7d2ccbe.png)
+
